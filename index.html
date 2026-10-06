@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kathleen — Memory you can read, prove, and erase</title>
+<meta name="description" content="Kathleen: a byte-level, attention-free architecture with a holographic memory organ — one-shot recall, verified unlearning, exact attribution. Research by George Fountzoulas.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0c0e13;
+    --bg2: #101420;
+    --ink: #e8e3d8;
+    --dim: #8b8677;
+    --hair: rgba(232,227,216,0.14);
+    --gold: #c9a45c;
+    --wave: rgba(232,227,216,0.55);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 20px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .label {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 500;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 0 28px; }
+
+  /* ---------- hero ---------- */
+  .hero {
+    position: relative;
+    min-height: 92vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+  #waves {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    opacity: 0.5;
+  }
+  .hero-inner { position: relative; z-index: 2; }
+  .hero h1 {
+    font-size: clamp(64px, 11vw, 128px);
+    font-weight: 300;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    margin: 18px 0 26px;
+  }
+  .hero h1 .k { color: var(--gold); }
+  .hero .thesis {
+    font-size: clamp(22px, 3vw, 30px);
+    font-style: italic;
+    font-weight: 300;
+    max-width: 560px;
+    color: var(--ink);
+  }
+  .hero .sub {
+    margin-top: 30px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 14.5px;
+    line-height: 1.75;
+    color: var(--dim);
+    max-width: 520px;
+  }
+  .hero .sub b { color: var(--ink); font-weight: 400; }
+  .scrollhint {
+    position: absolute; bottom: 28px; left: 50%;
+    transform: translateX(-50%);
+    color: var(--dim); font-size: 22px; z-index: 2;
+    animation: drift 2.6s ease-in-out infinite;
+  }
+  @keyframes drift { 0%,100% { transform: translate(-50%,0);} 50% { transform: translate(-50%,8px);} }
+
+  /* ---------- sections ---------- */
+  section { padding: 96px 0; border-top: 1px solid var(--hair); }
+  .sec-head {
+    display: flex; align-items: baseline; gap: 18px; margin-bottom: 52px;
+  }
+  .sec-head .num {
+    font-size: 15px; color: var(--dim); font-family: 'Inter', sans-serif;
+    font-weight: 300;
+  }
+  h2 {
+    font-size: 38px; font-weight: 400; letter-spacing: 0.01em;
+  }
+
+  /* results */
+  .results { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; }
+  @media (max-width: 720px) { .results { grid-template-columns: 1fr; } }
+  .r {
+    padding: 30px 26px 34px;
+    border-left: 1px solid var(--hair);
+  }
+  .r:first-child { border-left: none; }
+  @media (max-width: 720px) {
+    .r { border-left: none; border-top: 1px solid var(--hair); }
+    .r:first-child { border-top: none; }
+  }
+  .r b {
+    display: block;
+    font-size: 54px; font-weight: 300; color: var(--gold);
+    line-height: 1.1; margin-bottom: 12px;
+    font-variant-numeric: oldstyle-nums;
+  }
+  .r span {
+    font-family: 'Inter', sans-serif; font-weight: 300;
+    font-size: 13.5px; line-height: 1.7; color: var(--dim);
+  }
+  .results-note {
+    margin-top: 44px; font-style: italic; color: var(--dim);
+    font-size: 18px; text-align: center;
+  }
+
+  /* principles */
+  .prin { display: grid; grid-template-columns: 170px 1fr; gap: 8px 40px; }
+  @media (max-width: 720px) { .prin { grid-template-columns: 1fr; } }
+  .prin dt {
+    font-size: 26px; color: var(--gold); font-weight: 400;
+    padding-top: 26px;
+  }
+  .prin dd {
+    border-bottom: 1px solid var(--hair);
+    padding: 26px 0 30px;
+    font-size: 19px; font-weight: 300; color: var(--ink);
+  }
+  .prin dt:first-of-type, .prin dd:first-of-type { padding-top: 0; }
+
+  /* papers */
+  .paper {
+    display: block;
+    padding: 34px 0;
+    border-bottom: 1px solid var(--hair);
+    text-decoration: none; color: inherit;
+    transition: padding-left 0.35s ease;
+  }
+  .paper:hover { padding-left: 14px; }
+  .paper .t {
+    font-size: 27px; font-weight: 400; color: var(--ink);
+  }
+  .paper:hover .t { color: var(--gold); }
+  .paper .m {
+    font-family: 'Inter', sans-serif; font-weight: 300;
+    font-size: 13px; color: var(--dim); margin-top: 8px; line-height: 1.7;
+  }
+  .patents {
+    margin-top: 40px; font-family: 'Inter', sans-serif; font-weight: 300;
+    font-size: 13px; color: var(--dim); line-height: 1.8;
+  }
+  .patents b { color: var(--ink); font-weight: 400; }
+
+  /* method */
+  .method p {
+    font-size: 23px; font-weight: 300; line-height: 1.75;
+    max-width: 700px;
+  }
+  .method .big {
+    font-style: italic; color: var(--gold); font-size: 26px;
+    margin-top: 30px;
+  }
+
+  footer {
+    border-top: 1px solid var(--hair);
+    padding: 70px 0 90px;
+    font-family: 'Inter', sans-serif; font-weight: 300;
+    font-size: 13.5px; color: var(--dim); line-height: 2;
+  }
+  footer b { color: var(--ink); font-weight: 400; }
+  footer a { color: var(--gold); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <canvas id="waves"></canvas>
+  <div class="wrap hero-inner">
+    <div class="label">Holographic memory · attention-free · edge-native</div>
+    <h1><span class="k">K</span>athleen</h1>
+    <p class="thesis">Machine memory you can read, prove, and&nbsp;erase.</p>
+    <p class="sub">A byte-level architecture whose knowledge lives in an
+    <b>addressable holographic memory</b>, not in weights. Writing is
+    one-shot. Recall is algebra. Deletion is subtraction — with a
+    mathematical audit trail. Small enough to run where the data lives.</p>
+  </div>
+  <div class="scrollhint">↓</div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head"><span class="num">01</span><h2>Measured, not promised</h2></div>
+    <div class="results">
+      <div class="r"><b>&lt;0.5M</b><span>parameters in the perceptual core — tokenizer-free, linear in sequence length, trained on commodity hardware</span></div>
+      <div class="r"><b>80–82%</b><span>one-shot recall at four times the training length; the bare recurrent baseline manages ~4%</span></div>
+      <div class="r"><b>96.6%</b><span>SST-2 accuracy at 0.47M parameters with a plug-on holographic meaning channel</span></div>
+      <div class="r"><b>~chance</b><span>recall of erased content after one algebraic subtraction — verified unlearning; retained memories unaffected</span></div>
+      <div class="r"><b>100%</b><span>provenance — counterfactual attribution identifies exactly which stored memory produced an answer</span></div>
+      <div class="r"><b>95%</b><span>multi-hop reasoning executed as pure algebra inside the memory — no neural network in the loop</span></div>
+    </div>
+    <p class="results-note">Every number above comes from a pre-registered experiment with criteria fixed before the run.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head"><span class="num">02</span><h2>Four properties, by construction</h2></div>
+    <dl class="prin">
+      <dt>Located</dt>
+      <dd>Every fact has an address. Knowledge in weight-based models can be neither located nor removed; here it is a vector you can point to.</dd>
+      <dt>Erasable</dt>
+      <dd>The right to be forgotten — GDPR Article 17 — as an algebraic operation, with a before/after audit any third party can run. Compliance by architecture, not by policy.</dd>
+      <dt>Attributable</dt>
+      <dd>Every answer traces back to the stored memory that produced it. No fabricated provenance.</dd>
+      <dt>Small</dt>
+      <dd>The entire stack runs on edge-class hardware. No cloud dependency, no third-party model, no tokenizer. The data never has to leave the device.</dd>
+    </dl>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head"><span class="num">03</span><h2>Papers</h2></div>
+    <a class="paper" href="https://arxiv.org/abs/2604.07969">
+      <div class="t">Kathleen — a byte-level, attention-free perceptual core</div>
+      <div class="m">arXiv:2604.07969 · the recurrent trunk: raw bytes in, O(L), no attention, no tokenizer</div>
+    </a>
+    <a class="paper" href="https://arxiv.org/abs/2608.04678">
+      <div class="t">Kathleen Writes — generation and data scaling without attention</div>
+      <div class="m">arXiv:2608.04678 · autoregressive generation and native-signal learning with a gammatone audio front-end</div>
+    </a>
+    <a class="paper" href="https://arxiv.org/abs/2608.30376">
+      <div class="t">Kathleen Remembers — length-invariant one-shot recall</div>
+      <div class="m">arXiv:2608.30376 · the holographic memory organ: one-shot writing, verified unlearning, exact attribution</div>
+    </a>
+    <a class="paper" href="https://doi.org/10.5281/zenodo.19339017">
+      <div class="t">Kathleen — oscillator-based byte-level text classification</div>
+      <div class="m">Zenodo · DOI 10.5281/zenodo.19339017 · the founding paper (March 2026), openly archived and indexed in OpenAIRE</div>
+    </a>
+    <p class="patents"><b>Patents.</b> Two layered US provisional applications:
+    No. 64/231,579 (May 2026 — perceptual core) · No. 64/140,260 (August 2026 — memory organ).</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head"><span class="num">04</span><h2>Method</h2></div>
+    <div class="method">
+      <p>Verdict criteria are fixed before each experiment runs. Negative
+      results are reported as prominently as positive ones. Every failure
+      receives an autopsy with discriminating control arms before any fix
+      is attempted. The full lineage — five months, 2,300+ archived
+      experiments with timestamped version history — is preserved.</p>
+      <p class="big">Trustworthy cognition begins with a trustworthy research process.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p><b>George Fountzoulas</b> — independent researcher, Nafpaktos, Greece</p>
+    <p>Contact: <a href="mailto:george.fountzoulas.research@gmail.com">george.fountzoulas.research@gmail.com</a></p>
+    <p style="margin-top:18px">© 2026 · Architecture and results subject to pending patent applications.</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  const cv = document.getElementById('waves');
+  const ctx = cv.getContext('2d');
+  let W, H, t = 0;
+
+  function resize() {
+    W = cv.width = cv.offsetWidth * devicePixelRatio;
+    H = cv.height = cv.offsetHeight * devicePixelRatio;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  // superposed memory traces: horizontal lines displaced by a sum of
+  // travelling gaussian-windowed waves -- interference made visible
+  const LINES = 42;
+  const SOURCES = [
+    { a: 26, f: 0.0045, v: 0.012, ph: 0.0 },
+    { a: 18, f: 0.0090, v: -0.008, ph: 2.1 },
+    { a: 10, f: 0.0170, v: 0.017, ph: 4.0 },
+  ];
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    const margin = H * 0.10;
+    const span = H - margin * 2;
+    for (let i = 0; i < LINES; i++) {
+      const yBase = margin + (span * i) / (LINES - 1);
+      const depth = i / (LINES - 1);
+      // envelope: waves live mostly mid-canvas, fade at edges
+      ctx.beginPath();
+      const alpha = 0.05 + 0.30 * Math.sin(Math.PI * depth) ** 2;
+      ctx.strokeStyle = 'rgba(232,227,216,' + alpha.toFixed(3) + ')';
+      ctx.lineWidth = devicePixelRatio * 0.7;
+      for (let x = 0; x <= W; x += 3 * devicePixelRatio) {
+        let dy = 0;
+        for (const s of SOURCES) {
+          const env = Math.exp(-Math.pow((x / W - 0.62 - 0.25 * Math.sin(t * s.v + i * 0.18)), 2) / 0.07);
+          dy += s.a * devicePixelRatio * env *
+                Math.sin(x * s.f / devicePixelRatio + t * s.v * 6 + s.ph + i * 0.35);
+        }
+        const y = yBase + dy;
+        x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+    }
+    t += 1;
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+</script>
+
+</body>
+</html>
